@@ -1,98 +1,310 @@
-# API Backend Documentation
+Aqui está a documentação da API em Markdown, melhorada e estilizada com base no seu HTML:
 
-Welcome to the API Backend Documentation for the ArtLaser project. This documentation provides detailed information about the endpoints, request/response formats, and authentication methods used in the backend of the ArtLaser application.
+```markdown
+# Artlaser API
 
-## Table of Contents
+Documentação da API para o projeto Artlaser.
 
-1. [Introduction](#introduction)
-2. [Authentication](#authentication)
-3. [Endpoints](#endpoints)
-  - [Endpoint 1](#endpoint-1)
-  - [Endpoint 2](#endpoint-2)
-  - [Endpoint 3](#endpoint-3)
-4. [Request/Response Formats](#request-response-formats)
-5. [Error Handling](#error-handling)
-6. [Examples](#examples)
-7. [Conclusion](#conclusion)
+Mais informações: [https://helloreverb.com](https://helloreverb.com)  
+Informações de contato: [hello@helloreverb.com](mailto:hello@helloreverb.com)  
+Versão: 1.0.0
 
-## Introduction
+Licença: Todos os direitos reservados  
+[Licença](http://apache.org/licenses/LICENSE-2.0.html)
 
-The API Backend is responsible for handling all the requests from the frontend and interacting with the database to retrieve and manipulate data. It follows RESTful principles and provides a secure and efficient way to communicate with the ArtLaser application.
+## Índice
 
-## Authentication
+- [Métodos](#métodos)
+  - [Banner](#banner)
+    - [GET /banner](#get-banner)
+    - [DELETE /banner/{id}](#delete-bannerid)
+    - [POST /banner](#post-banner)
+  - [Painel](#painel)
+    - [GET /panel/{token}](#get-paneltoken)
+  - [Imagens](#imagens)
+    - [GET /pictures/category/{category}](#get-picturescategorycategory)
+    - [GET /pictures](#get-pictures)
+    - [DELETE /pictures/{id}](#delete-picturesid)
+    - [GET /pictures/{id}](#get-picturesid)
+    - [POST /pictures](#post-pictures)
+    - [GET /pictures/search/{title}](#get-picturessearchtitle)
+  - [Usuários](#usuários)
+    - [POST /users/create](#post-userscreate)
+    - [POST /users/login](#post-userslogin)
 
-To access the API endpoints, you need to authenticate using JSON Web Tokens (JWT). The authentication process involves sending a POST request to the `/auth/login` endpoint with valid credentials. Upon successful authentication, you will receive a JWT token that needs to be included in the `Authorization` header of subsequent requests.
+## Métodos
 
-## Endpoints
+### Banner
 
-### Endpoint 1
+#### GET /banner
 
-- **URL:** `/api/endpoint1`
-- **Method:** GET
-- **Description:** This endpoint retrieves the data for endpoint 1.
-- **Parameters:**
-  - `param1`: The first parameter.
-  - `param2`: The second parameter.
-- **Response:**
-  - `200 OK`: Returns the data for endpoint 1 in JSON format.
-  - `404 Not Found`: If the requested data is not found.
+Retorna todos os banners.
 
-### Endpoint 2
+**Resposta**  
+- Tipo: `array[Banner]`
 
-- **URL:** `/api/endpoint2`
-- **Method:** POST
-- **Description:** This endpoint creates a new resource for endpoint 2.
-- **Parameters:**
-  - `param1`: The first parameter.
-  - `param2`: The second parameter.
-- **Request Body:**
-  - JSON object containing the data for the new resource.
-- **Response:**
-  - `201 Created`: If the resource is successfully created.
-  - `400 Bad Request`: If the request is invalid.
-
-### Endpoint 3
-
-- **URL:** `/api/endpoint3/{id}`
-- **Method:** DELETE
-- **Description:** This endpoint deletes the resource with the specified ID.
-- **Parameters:**
-  - `id`: The ID of the resource to be deleted.
-- **Response:**
-  - `204 No Content`: If the resource is successfully deleted.
-  - `404 Not Found`: If the resource with the specified ID is not found.
-
-## Request/Response Formats
-
-All requests and responses are in JSON format. The request body should follow a specific format depending on the endpoint being called. The response body will contain the requested data or an error message if applicable.
-
-## Error Handling
-
-In case of errors, the API will return an appropriate HTTP status code along with an error message in the response body. The error message will provide details about the encountered error, helping you to identify and resolve the issue.
-
-## Examples
-
-Here are some examples of how to use the API endpoints:
-
-1. Retrieve data from Endpoint 1:
-  ```
-  GET /api/endpoint1?param1=value1&param2=value2
-  ```
-
-2. Create a new resource for Endpoint 2:
-  ```
-  POST /api/endpoint2
+**Exemplo de dados**
+```json
+[
   {
-    "param1": "value1",
-    "param2": "value2"
+    "id": "id",
+    "url": "url"
+  },
+  {
+    "id": "id",
+    "url": "url"
   }
-  ```
+]
+```
 
-3. Delete a resource from Endpoint 3:
-  ```
-  DELETE /api/endpoint3/123
-  ```
+**Produz**
+- `application/json`
 
-## Conclusion
+**Respostas**
+- **200**: Lista de banners
 
-This concludes the API Backend Documentation for the ArtLaser project. If you have any further questions or need assistance, please refer to the provided examples or contact our support team.
+---
+
+#### DELETE /banner/{id}
+
+Remove um banner específico.
+
+**Parâmetros de Caminho**
+- `id` (obrigatório): ID do banner a ser removido.
+
+**Respostas**
+- **200**: Banner removido com sucesso
+- **404**: Banner não encontrado
+
+---
+
+#### POST /banner
+
+Cria um novo banner.
+
+**Consome**
+- `multipart/form-data`
+
+**Parâmetros de Formulário**
+- `image` (obrigatório): Formato binário
+
+**Respostas**
+- **200**: Banner criado com sucesso
+- **400**: Erro de validação
+
+---
+
+### Painel
+
+#### GET /panel/{token}
+
+Serve o `painel.html`.
+
+**Parâmetros de Caminho**
+- `token` (obrigatório): Token para acessar o painel.
+
+**Respostas**
+- **200**: Painel.html servido com sucesso
+
+---
+
+### Imagens
+
+#### GET /pictures/category/{category}
+
+Retorna imagens por categoria.
+
+**Parâmetros de Caminho**
+- `category` (obrigatório): Categoria das imagens.
+
+**Resposta**  
+- Tipo: `array[Picture]`
+
+**Exemplo de dados**
+```json
+[
+  {
+    "id": "id",
+    "title": "title",
+    "category": "category",
+    "url": "url"
+  },
+  {
+    "id": "id",
+    "title": "title",
+    "category": "category",
+    "url": "url"
+  }
+]
+```
+
+**Produz**
+- `application/json`
+
+**Respostas**
+- **200**: Lista de imagens por categoria
+
+---
+
+#### GET /pictures
+
+Retorna todas as imagens.
+
+**Resposta**  
+- Tipo: `array[Picture]`
+
+**Exemplo de dados**
+```json
+[
+  {
+    "id": "id",
+    "title": "title",
+    "category": "category",
+    "url": "url"
+  },
+  {
+    "id": "id",
+    "title": "title",
+    "category": "category",
+    "url": "url"
+  }
+]
+```
+
+**Produz**
+- `application/json`
+
+**Respostas**
+- **200**: Lista de imagens
+
+---
+
+#### DELETE /pictures/{id}
+
+Remove uma imagem específica.
+
+**Parâmetros de Caminho**
+- `id` (obrigatório): ID da imagem a ser removida.
+
+**Respostas**
+- **200**: Imagem removida com sucesso
+- **404**: Imagem não encontrada
+
+---
+
+#### GET /pictures/{id}
+
+Retorna uma imagem específica.
+
+**Parâmetros de Caminho**
+- `id` (obrigatório): ID da imagem a ser retornada.
+
+**Resposta**  
+- Tipo: `Picture`
+
+**Exemplo de dados**
+```json
+{
+  "id": "id",
+  "title": "title",
+  "category": "category",
+  "url": "url"
+}
+```
+
+**Produz**
+- `application/json`
+
+**Respostas**
+- **200**: Imagem encontrada
+- **404**: Imagem não encontrada
+
+---
+
+#### POST /pictures
+
+Cria uma nova imagem.
+
+**Consome**
+- `multipart/form-data`
+
+**Parâmetros de Formulário**
+- `image` (obrigatório): Formato binário
+
+**Respostas**
+- **200**: Imagem criada com sucesso
+- **400**: Erro de validação
+
+---
+
+#### GET /pictures/search/{title}
+
+Busca imagens por título.
+
+**Parâmetros de Caminho**
+- `title` (obrigatório): Título para a busca.
+
+**Resposta**  
+- Tipo: `array[Picture]`
+
+**Exemplo de dados**
+```json
+[
+  {
+    "id": "id",
+    "title": "title",
+    "category": "category",
+    "url": "url"
+  },
+  {
+    "id": "id",
+    "title": "title",
+    "category": "category",
+    "url": "url"
+  }
+]
+```
+
+**Produz**
+- `application/json`
+
+**Respostas**
+- **200**: Lista de imagens que correspondem à busca
+
+---
+
+### Usuários
+
+#### POST /users/create
+
+Cria um novo usuário.
+
+**Consome**
+- `application/json`
+
+**Parâmetros de Corpo**
+- `name` (obrigatório): Nome do usuário.
+- `email` (obrigatório): Email do usuário.
+- `password` (obrigatório): Senha do usuário.
+
+**Respostas**
+- **201**: Usuário criado com sucesso
+- **400**: Erro de validação
+
+---
+
+#### POST /users/login
+
+Faz o login de um usuário.
+
+**Consome**
+- `application/json`
+
+**Parâmetros de Corpo**
+- `email` (obrigatório): Email do usuário.
+- `password` (obrigatório): Senha do usuário.
+
+**Respostas**
+- **200**: Login realizado com sucesso
+- **401**: Credenciais inválidas
+```
