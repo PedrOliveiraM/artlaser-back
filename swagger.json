@@ -1,0 +1,376 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Artlaser API",
+    "version": "1.0.0",
+    "description": "Documentação da API para o projeto Artlaser."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000",
+      "description": "Servidor local"
+    }
+  ],
+  "paths": {
+    "/pictures": {
+      "post": {
+        "summary": "Cria uma nova imagem",
+        "tags": ["Pictures"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Imagem criada com sucesso"
+          },
+          "400": {
+            "description": "Erro de validação"
+          }
+        }
+      },
+      "get": {
+        "summary": "Retorna todas as imagens",
+        "tags": ["Pictures"],
+        "responses": {
+          "200": {
+            "description": "Lista de imagens",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Picture"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pictures/{id}": {
+      "get": {
+        "summary": "Retorna uma imagem específica",
+        "tags": ["Pictures"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Imagem encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Picture"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Imagem não encontrada"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove uma imagem específica",
+        "tags": ["Pictures"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Imagem removida com sucesso"
+          },
+          "404": {
+            "description": "Imagem não encontrada"
+          }
+        }
+      }
+    },
+    "/pictures/category/{category}": {
+      "get": {
+        "summary": "Retorna imagens por categoria",
+        "tags": ["Pictures"],
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de imagens por categoria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Picture"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pictures/search/{title}": {
+      "get": {
+        "summary": "Busca imagens por título",
+        "tags": ["Pictures"],
+        "parameters": [
+          {
+            "name": "title",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de imagens que correspondem à busca",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Picture"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/banner": {
+      "post": {
+        "summary": "Cria um novo banner",
+        "tags": ["Banner"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Banner criado com sucesso"
+          },
+          "400": {
+            "description": "Erro de validação"
+          }
+        }
+      },
+      "get": {
+        "summary": "Retorna todos os banners",
+        "tags": ["Banner"],
+        "responses": {
+          "200": {
+            "description": "Lista de banners",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Banner"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/banner/{id}": {
+      "delete": {
+        "summary": "Remove um banner específico",
+        "tags": ["Banner"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Banner removido com sucesso"
+          },
+          "404": {
+            "description": "Banner não encontrado"
+          }
+        }
+      }
+    },
+    "/users/create": {
+      "post": {
+        "summary": "Cria um novo usuário",
+        "tags": ["Users"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuário criado com sucesso"
+          },
+          "400": {
+            "description": "Erro de validação"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "summary": "Faz login do usuário",
+        "tags": ["Users"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login bem-sucedido"
+          },
+          "401": {
+            "description": "Credenciais inválidas"
+          }
+        }
+      }
+    },
+    "/panel/{token}": {
+      "get": {
+        "summary": "Serve o painel.html",
+        "tags": ["Panel"],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Painel.html servido com sucesso"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Picture": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID da imagem"
+          },
+          "url": {
+            "type": "string",
+            "description": "URL da imagem"
+          },
+          "title": {
+            "type": "string",
+            "description": "Título da imagem"
+          },
+          "category": {
+            "type": "string",
+            "description": "Categoria da imagem"
+          }
+        }
+      },
+      "Banner": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID do banner"
+          },
+          "url": {
+            "type": "string",
+            "description": "URL do banner"
+          }
+        }
+      }
+    }
+  }
+}
