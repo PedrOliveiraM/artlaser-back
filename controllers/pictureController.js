@@ -1,39 +1,7 @@
 const Picture = require('../models/Picture');
 
 const fs = require('fs');
-/*
-exports.create = async (req, res) => {
-  try {
-    const {
-      imageName,
-      title,
-      description,
-      qtdMin,
-      category,
-      retail,
-      wholesale,
-    } = req.body;
-    const file = req.file; // Aqui está o arquivo enviado pelo Multer
 
-    const picture = new Picture({
-      imageName,
-      src: file.path,
-      title,
-      description,
-      qtdMin,
-      category,
-      retail,
-      wholesale,
-    });
-
-    await picture.save();
-
-    res.json({ picture, msg: "Picture saved successfully" });
-  } catch (error) {
-    console.error("Error saving picture:", error);
-    res.status(500).send({ message: "Error saving picture" });
-  }
-};*/
 exports.create = async (req, res) => {
   try {
     const { title, description, qtdMin, category, retail, wholesale } =

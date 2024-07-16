@@ -16,19 +16,23 @@ const authenticateToken = require('../middleware/authMiddleware');
 app.use(cors());
 app.use(express.json());
 
-// Rotas
+// Rotas principais
 app.use('/pictures', pictureRouter);
 app.use('/banner', bannerRouter);
 app.use('/users', userRouter);
 
-// Serve arquivos estáticos da raiz do projeto
+// Middleware para servir arquivos estáticos da pasta uploads
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+
+// Middleware para servir o painel (supondo que `authenticateToken` verifica o token de autenticação)
 app.use(
   '/painel',
   authenticateToken,
   express.static(path.resolve(__dirname, '..', 'painel.html'))
 );
 
+// Inicialização do servidor
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
-  console.log(`${process.env.URL}`);
+  console.log(`URL: ${process.env.URL}`);
 });
